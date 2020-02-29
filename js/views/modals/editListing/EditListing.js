@@ -679,7 +679,7 @@ export default class extends BaseModal {
     }
 
     const upload = $.ajax({
-      url: app.getServerUrl('ob/images'),
+      url: app.getServerUrl('ob/image'),
       type: 'POST',
       data: JSON.stringify(imagesToUpload),
       dataType: 'json',

@@ -182,12 +182,10 @@ export function init(walletCurs, walletCurDef) {
   const indexedCurs = getIndexedCurrencies();
   // We don't want the indexed curs cached since the definition is about to change
   _indexedCurrencies = null;
-
   Object
     .keys(indexedCurs)
     .forEach(curCode => {
       const curDef = walletCurDef[curCode];
-
       if (
         curDef &&
         walletCurs.includes(curDef.code)
@@ -197,7 +195,6 @@ export function init(walletCurs, walletCurDef) {
           ...clientCur,
           coinDivisibility: curDef.divisibility,
         };
-
         curs.push(curData);
       }
     });

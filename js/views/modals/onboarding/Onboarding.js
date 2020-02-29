@@ -130,7 +130,6 @@ export default class extends BaseModal {
       this.trigger('onboarding-complete');
     }).fail((jqXhr) => {
       let title;
-
       if (jqXhr === profileSave) {
         title = app.polyglot.t('onboarding.profileFailedSaveTitle');
       } else if (jqXhr === settingsSave) {
@@ -166,7 +165,7 @@ export default class extends BaseModal {
 
     return $.ajax({
       type: 'POST',
-      url: app.getServerUrl('ob/avatar/'),
+      url: app.getServerUrl('ob/avatar'),
       contentType: 'application/json; charset=utf-8',
       data: avatarData,
       dataType: 'json',

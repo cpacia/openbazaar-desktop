@@ -237,6 +237,9 @@ export default class Profile extends BaseModel {
       throw new Error('I am unable to fetch, save or delete because the model does not' +
         ' have a peerID set.');
     }
+    if (method === 'create' || method === 'update') {
+      options.url = app.getServerUrl('ob/profile');
+    }
 
     return super.sync(method, model, options);
   }

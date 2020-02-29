@@ -124,7 +124,7 @@ export default class extends BaseModel {
 
   get httpUrl() {
     const prefix = this.get('SSL') ? 'https' : 'http';
-    return `${prefix}://${this.get('serverIp')}:${this.get('port')}/`;
+    return `${prefix}://${this.get('serverIp')}:${this.get('port')}/v1/`;
   }
 
 
