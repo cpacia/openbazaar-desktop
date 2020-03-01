@@ -196,7 +196,6 @@ export default class extends baseVw {
                 const avatarHashes = profile.get('avatarHashes') &&
                   profile.get('avatarHashes').toJSON() || {};
                 const imageHash = isHiRez ? avatarHashes.medium : avatarHashes.small;
-
                 if (imageHash) {
                   notifOptions.icon = app.getServerUrl(`ob/image/${imageHash}`);
                 }
@@ -455,7 +454,6 @@ export default class extends baseVw {
     if (!peerIds.length) {
       throw new Error('Please provide at least one peerId');
     }
-
     const profilePromises = getCachedProfiles(peerIds);
 
     profilePromises.forEach(profileFetch => {

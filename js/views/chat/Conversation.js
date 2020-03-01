@@ -285,8 +285,8 @@ export default class extends baseVw {
     this.lastTypingSentAt = null;
 
     const chatMessage = new ChatMessage({
-      peerId: this.guid,
-      subject: this.subject,
+      peerID: this.guid,
+      orderID: this.subject,
       message: msg,
     }, { parse: true });
 
@@ -309,21 +309,16 @@ export default class extends baseVw {
     // Send an empty message to indicate "typing...", but no more than 1 every
     // second.
     if (!this.lastTypingSentAt || (Date.now() - this.lastTypingSentAt) >= 1000) {
-      const typingMessage = new ChatMessage({
-        peerId: this.guid,
-        subject: this.subject,
-        message: '',
+      $.post({
+        url: app.getServerUrl('ob/typingmessage'),
+        data: JSON.stringify({ peerID: this.guid, orderID: this.subject }),
+        dataType: 'json',
+        contentType: 'application/json',
+      }).fail(jqXhr => {
+        console.error('There was an error sending typing message.');
       });
 
-      const saveTypingMessage = typingMessage.save();
-
-      if (saveTypingMessage) {
-        this.lastTypingSentAt = Date.now();
-      } else {
-        // Developer error - this shouldn't happen.
-        console.error('There was an error saving the chat message.');
-        console.dir(saveTypingMessage);
-      }
+      this.lastTypingSentAt = Date.now();
     }
 
     // Send actual chat message if the Enter key was pressed
@@ -499,8 +494,8 @@ export default class extends baseVw {
   //   otherwise been marked as read, but the call was held off because the app was
   //   not in focus.
   markConvoAsRead() {
-    const queryString = this.subject ? `/?subject=${this.subject}` : '';
-    $.post(app.getServerUrl(`ob/markchatasread/${this.guid}${queryString}`));
+    $.post(app.getServerUrl('ob/markchatasread'),
+      JSON.stringify({ peerID: this.guid, orderID: this.subject }));
     this.trigger('convoMarkedAsRead');
     this.markAsReadOnFocus = false;
   }

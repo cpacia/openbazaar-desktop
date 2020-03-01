@@ -280,7 +280,6 @@ export function getCachedProfiles(peerIds = []) {
   if (!(Array.isArray(peerIds))) {
     throw new Error('Please provide a list of peerIds.');
   }
-
   if (!peerIds.length) {
     throw new Error('Please provide at least one peerId.');
   }
@@ -361,25 +360,24 @@ export function getCachedProfiles(peerIds = []) {
       });
     } else {
       const onSocketMessage = e => {
-        if (!(e.jsonData.peerId && (e.jsonData.profile || e.jsonData.error))) return;
+        if (!e.jsonData.profile && !e.jsonData.error) return;
         if (e.jsonData.id !== fetchId) return;
-
-        if (profileCache.get(e.jsonData.peerId)) {
+        if (profileCache.get(e.jsonData.profile.peerID)) {
           if (e.jsonData.error) {
-            profileCache.get(e.jsonData.peerId)
+            profileCache.get(e.jsonData.profile.peerID)
               .deferred
               .reject({
                 errCode: 'SERVER_ERROR',
                 error: e.jsonData.error,
               });
           } else {
-            profileCache.get(e.jsonData.peerId)
+            profileCache.get(e.jsonData.profile.peerID)
               .deferred
               .resolve(new Profile(e.jsonData.profile, { parse: true }));
           }
 
-          if (profilesReceived.indexOf(e.jsonData.peerId) === -1) {
-            profilesReceived.push(e.jsonData.peerId);
+          if (profilesReceived.indexOf(e.jsonData.profile.peerID) === -1) {
+            profilesReceived.push(e.jsonData.profile.peerID);
           }
 
           if (profilesReceived.length === profilesToFetch.length) {
@@ -389,7 +387,6 @@ export function getCachedProfiles(peerIds = []) {
       };
 
       socket.on('message', onSocketMessage);
-
       $.post({
         url: app.getServerUrl(`ob/fetchprofiles?async=true&usecache=true&asyncID=${fetchId}`),
         data: JSON.stringify(profilesToFetch),

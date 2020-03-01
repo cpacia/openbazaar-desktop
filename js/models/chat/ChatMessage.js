@@ -130,7 +130,7 @@ export default class ChatMessage extends BaseModel {
   }
 
   url() {
-    return app.getServerUrl(`ob/${this.isGroupChatMessage ? 'groupchat' : 'chat'}/`);
+    return app.getServerUrl(`ob/${this.isGroupChatMessage ? 'groupchat' : 'chatmessage'}`);
   }
 
   set(key, val, options = {}) {
@@ -185,8 +185,8 @@ export default class ChatMessage extends BaseModel {
     const max = this.constructor.max;
 
     if (!this.isGroupChatMessage) {
-      if (!attrs.peerId) {
-        addError('peerId', 'The peerId is required');
+      if (!attrs.peerID) {
+        addError('peerID', 'The peerID is required');
       }
     } else if (!Array.isArray(attrs.peerIds) || !attrs.peerIds.length) {
       addError('peerIds', 'peerIds must be provided as an array.');

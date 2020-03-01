@@ -110,7 +110,7 @@ export default class extends baseVw {
       { header: imageURI.replace(/^data:image\/(png|jpeg|webp);base64,/, '') });
     return $.ajax({
       type: 'POST',
-      url: app.getServerUrl('ob/header/'),
+      url: app.getServerUrl('ob/header'),
       contentType: 'application/json; charset=utf-8',
       data: headerData,
       dataType: 'json',
