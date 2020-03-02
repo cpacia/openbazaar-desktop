@@ -198,9 +198,9 @@ export function getNotifDisplayData(attrs, options = {}) {
   } else if (attrs.type === 'follow' || attrs.type === 'moderatorAdd' ||
     attrs.type === 'moderatorRemove') {
     const name = opts.native ?
-      getName(attrs.handle, attrs.peerId) :
-      `<a class="clrTEm" href="#${attrs.peerId}">${getName(attrs.handle, attrs.peerId)}</a>`;
-    route = `#${attrs.peerId}`;
+      getName(attrs.handle, attrs.peerID) :
+      `<a class="clrTEm" href="#${attrs.peerID}">${getName(attrs.handle, attrs.peerID)}</a>`;
+    route = `#${attrs.peerID}`;
     text = app.polyglot.t(`notifications.text.${attrs.type}`, {
       name,
     });

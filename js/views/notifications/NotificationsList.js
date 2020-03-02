@@ -51,7 +51,7 @@ export default class extends BaseVw {
           const types = ['follow', 'moderatorAdd', 'moderatorRemove'];
 
           if (types.indexOf(innerNotif.type) > -1) {
-            getCachedProfiles([innerNotif.peerId])[0]
+            getCachedProfiles([innerNotif.peerID])[0]
               .done(profile => {
                 notif.set('notification', {
                   ...innerNotif,

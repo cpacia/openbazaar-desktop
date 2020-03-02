@@ -37,7 +37,7 @@ export default class Profile extends BaseModel {
     return app.getServerUrl(`ob/profile/${this.id}`);
   }
 
-  // todo: set peerId instead of ID when setting ID.
+  // todo: set peerID instead of ID when setting ID.
   get idAttribute() {
     return 'peerID';
   }
@@ -250,12 +250,12 @@ const profileCacheExpires = 1000 * 60 * 60;
 const profileCache = new Map();
 let profileCacheExpiredInterval;
 
-function expireCachedProfile(peerId) {
-  if (!peerId) {
-    throw new Error('Please provide a peerId');
+function expireCachedProfile(peerID) {
+  if (!peerID) {
+    throw new Error('Please provide a peerID');
   }
 
-  const cached = profileCache.get(peerId);
+  const cached = profileCache.get(peerID);
 
   if (cached) {
     cached.deferred.reject({
@@ -264,29 +264,29 @@ function expireCachedProfile(peerId) {
     });
   }
 
-  profileCache.delete(peerId);
+  profileCache.delete(peerID);
 }
 
 /**
  * This function will fetch a list of profiles via the profiles api utilizing
  * the async and usecache flags. It will return a list of promises that will
  * each resolve when their respective profile arrives via socket.
- * @param {Array} peerIds List of peerId for whose profiles to fetch.
+ * @param {Array} peerIDs List of peerID for whose profiles to fetch.
  * @returns {Array} An array of promises corresponding to the array of passed
- * in peerIds. Each promise will resolve when it's respective profile is received
+ * in peerIDs. Each promise will resolve when it's respective profile is received
  * via the socket. A profile model will be passed in the resolve handler.
  */
-export function getCachedProfiles(peerIds = []) {
-  if (!(Array.isArray(peerIds))) {
-    throw new Error('Please provide a list of peerIds.');
+export function getCachedProfiles(peerIDs = []) {
+  if (!(Array.isArray(peerIDs))) {
+    throw new Error('Please provide a list of peerIDs.');
   }
-  if (!peerIds.length) {
-    throw new Error('Please provide at least one peerId.');
+  if (!peerIDs.length) {
+    throw new Error('Please provide at least one peerID.');
   }
 
-  peerIds.forEach(id => {
+  peerIDs.forEach(id => {
     if (typeof id !== 'string') {
-      throw new Error('One or more of the provided peerIds are not strings.');
+      throw new Error('One or more of the provided peerIDs are not strings.');
     }
   });
 
@@ -306,7 +306,7 @@ export function getCachedProfiles(peerIds = []) {
     }, 1000 * 60 * 5);
   }
 
-  peerIds.forEach(id => {
+  peerIDs.forEach(id => {
     let cached = profileCache.get(id);
 
     // make sure it's not expired

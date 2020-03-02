@@ -227,16 +227,16 @@ export default class extends BaseModal {
   }
 
   _getParticipantProfile(participantType) {
-    const peerId = this.model[`${participantType}Id`];
+    const peerID = this.model[`${participantType}Id`];
     const profileKey = `_${participantType}Profile`;
 
     if (!this[profileKey]) {
-      if (peerId === app.profile.id) {
+      if (peerID === app.profile.id) {
         const deferred = $.Deferred();
         deferred.resolve(app.profile);
         this[profileKey] = deferred.promise();
       } else {
-        this[profileKey] = getCachedProfiles([peerId])[0];
+        this[profileKey] = getCachedProfiles([peerID])[0];
       }
     }
 
